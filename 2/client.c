@@ -24,7 +24,7 @@ void error(char *msg)
 
 int main(int argc, char **argv)
 {
-	int sockfd, sum, prime;
+	int sockfd, sum, sub;
 	struct sockaddr_in server;
 	char buf[21];
 
@@ -59,8 +59,8 @@ int main(int argc, char **argv)
 	if (recv(sockfd, buf, sizeof(buf), 0) < 0)
 		error("recv failed");
 
-	sscanf(buf, "%d %d", &sum, &prime);
-	printf("Sum = %d\nPrime = %s\n", sum, prime? "Yes" : "No");
+	sscanf(buf, "%d %d", &sum, &sub);
+	printf("Sum = %d\nSubstring = %s\n", sum, sub? "Yes" : "No");
 
 	close(sockfd);
 

@@ -15,7 +15,7 @@
 #include <pthread.h>
 #include <unistd.h>
 
-struct str1
+struct str
 {
 	char str1[21];
 	char str2[21];
@@ -46,22 +46,27 @@ void *sumfn(void *num)
 
 void *substr(void *num)
 {
-	int i, n = *(int *)num;
-	int *prime = malloc(sizeof(int));
-	if(!prime)
+	struct str *foo = num;
+	int *sub = malloc(sizeof(int));
+	if(!sub)
 		error("malloc failed");
+	
+	if(strstr(foo->str1, foo->str2))
+		*sub = 1;
+	else
+		*sub = 0;
 
-	pthread_exit(prime);
+	pthread_exit(sub);
 }
 
 int main(int argc, char **argv)
 {
 	int sockfd, newsockfd, n;
-	void *sumval, *primeval;
+	void *sumval, *subval;
 	struct sockaddr_in server;
 	struct str strvar;
 	char buf[21];
-	pthread_t thread_prime, thread_sum;
+	pthread_t thread_substr, thread_sum;
 
 	sockfd = socket(AF_INET, SOCK_STREAM, 0);
 	if (sockfd < 0)
@@ -100,16 +105,16 @@ int main(int argc, char **argv)
 //	pthread_create(&thread_substr, NULL, concat, &strvar);
 
 	pthread_join(thread_sum, &sumval);
-	pthread_join(thread_substr, &primeval);
+	pthread_join(thread_substr, &subval);
 //	pthread_join(thread_prime, &primeval);
 //	pthread_join(thread_prime, &primeval);
 
-	sprintf(buf,"%d %d", *(int *)sumval, *(int *)primeval);
+	sprintf(buf,"%d %d", *(int *)sumval, *(int *)subval);
 	if (send(newsockfd, buf, strlen(buf), 0) < 0)
 		error("send failed");
 
 	free(sumval);
-//	free(primeval);
+	free(subval);
 	close(newsockfd);
 	close(sockfd);
 
