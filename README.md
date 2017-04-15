@@ -1,6 +1,11 @@
 # SL-V
 Software Laboratory 5
 
+# How to use:  
+Download https://github.com/rootkea/SL-V/archive/master.zip or
+
+	$ git clone https://github.com/rootkea/SL-V.git
+
 # Assignments Index
 1. Implement following operations using Socket Programming & Multithreading.  
 	a. Addition of digits of a given number. (Ex 12345 = 15)  
