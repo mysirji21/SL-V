@@ -2,8 +2,7 @@
 Software Laboratory 5
 
 # How to use:  
-Download https://github.com/rootkea/SL-V/archive/master.zip or
-
+	$ sudo apt-get install git		#use OS specific command to install git
 	$ git clone https://github.com/rootkea/SL-V.git
 
 # Assignments Index
