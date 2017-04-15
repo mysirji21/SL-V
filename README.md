@@ -2,21 +2,23 @@
 Software Laboratory 5
 
 # Assignments Index
-1. Implement following operations using Socket Programming & Multithreading.
-	a. Addition of digits of a given number. (Ex 12345 = 15)
-	b. Find given number is prime or not.
+1. Implement following operations using Socket Programming & Multithreading.  
+	a. Addition of digits of a given number. (Ex 12345 = 15)  
+	b. Find given number is prime or not.  
 	
-	Usage :
+	Usage :  
+	
 		$ gcc server.c -pthread -o server
 		$ ./server 51123				#substitute any non-privileged port
 		$ gcc client.c -o client 
 		$ ./client 127.0.0.1 51123		#substitute any LAN ip and port
 
-2. Implement following operations using Socket Programming & Multithreading.
-	a. Addition of digits of a given number. (Ex 12345 = 15)
-	b. Perform String Operations. (Compare, Concatenation, Substring)
+2. Implement following operations using Socket Programming & Multithreading.  
+	a. Addition of digits of a given number. (Ex 12345 = 15)  
+	b. Perform String Operations. (Compare, Concatenation, Substring)  
 
-	Usage :
+	Usage :  
+	
 		$ gcc server.c -pthread -o server
 		$ ./server 51123				#substitute any non-privileged port
 		$ gcc client.c -o client 
