@@ -2,7 +2,7 @@
 *	Author: Avinash Sonawane <rootkea@gmail.com>
 *	Title : Implement following operations using Socket Programming & Multithreading.
 *			a) Addition of digits of a given number. (Ex 12345 = 15).
-*			b) Perform String Operations. (Compare, Concatenation, Substring).
+*			b) Find given number is prime or not.
 *	License: GPLv3 or later
 */
 
