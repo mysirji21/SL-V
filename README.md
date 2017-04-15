@@ -2,9 +2,9 @@
 Software Laboratory 5
 
 # How to use:  
-Download https://github.com/rootkea/SL-V/archive/master.zip or
-
+	$ sudo apt-get install git		#use OS specific command to install git
 	$ git clone https://github.com/rootkea/SL-V.git
+	$ cd SL-V
 
 # Assignments Index
 1. Implement following operations using Socket Programming & Multithreading.  
