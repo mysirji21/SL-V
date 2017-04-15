@@ -3,7 +3,7 @@
 *	Title : Implement following operations using Socket Programming & Multithreading.
 *			a) Addition of digits of a given number. (Ex 12345 = 15).
 *			b) Perform String Operations. (Compare, Concatenation, Substring).
-*	License: GPL v3 or later
+*	License: GPLv3 or later
 */
 
 #include <stdio.h>
@@ -90,12 +90,6 @@ int main(int argc, char **argv)
 	pthread_create(&thread_sum, NULL, sumfn, &n);
 	pthread_create(&thread_prime, NULL, primefn, &n);
 
-	if(!(sumval = malloc(sizeof(int))))
-		error("malloc failed");
-
-	if(!(primeval = malloc(sizeof(int))))
-		error("malloc failed");
-
 	pthread_join(thread_sum, &sumval);
 	pthread_join(thread_prime, &primeval);
 
@@ -103,6 +97,8 @@ int main(int argc, char **argv)
 	if (send(newsockfd, buf, strlen(buf), 0) < 0)
 		error("send failed");
 
+	free(sumval);
+	free(primeval);
 	close(newsockfd);
 	close(sockfd);
 

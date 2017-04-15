@@ -3,7 +3,7 @@
 *	Title : Implement following operations using Socket Programming & Multithreading.
 *			a) Addition of digits of a given number. (Ex 12345 = 15).
 *			b) Perform String Operations. (Compare, Concatenation, Substring).
-*	License: GPL v3 or later
+*	License: GPLv3 or later
 */
 
 #include <stdio.h>
