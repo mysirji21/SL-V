@@ -26,7 +26,7 @@ int main(int argc, char **argv)
 {
 	int sockfd, sum, sub, cmp;
 	struct sockaddr_in server;
-	char buf[21];
+	char buf[21], buff2[41];
 
 	sockfd = socket(AF_INET, SOCK_STREAM, 0);
 	if (sockfd < 0)
@@ -59,9 +59,14 @@ int main(int argc, char **argv)
 	if (recv(sockfd, buf, sizeof(buf), 0) < 0)
 		error("recv failed");
 
+	memset(buff2, '\0', sizeof(buff2));
+	if (recv(sockfd, buff2, sizeof(buff2), 0) < 0)
+		error("recv failed");
+	
 	sscanf(buf, "%d %d %d", &sum, &sub, &cmp);
 	printf("Sum = %d\nSubstring = %s\n", sum, sub? "Yes" : "No");
 	printf("Compare = %s\n", cmp? "Equal" : "Unequal");
+	printf("Concatenate = %s\n", buff2);
 
 	close(sockfd);
 

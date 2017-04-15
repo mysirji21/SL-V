@@ -74,14 +74,28 @@ void *cmp(void *num)
 	pthread_exit(sub);
 }
 
+void *concat(void *num)
+{
+	struct str *foo = num;
+	char *cat = malloc(sizeof(foo->str1) + sizeof(foo->str2));
+	if(!cat)
+		error("malloc failed");
+
+	cat[0] = '\0';	
+	strcat(cat, foo->str1);
+	strcat(cat, foo->str2);
+
+	pthread_exit(cat);
+}
+
 int main(int argc, char **argv)
 {
 	int sockfd, newsockfd, n;
-	void *sumval, *subval, *cmpval;
+	void *sumval, *subval, *cmpval, *concatvar;
 	struct sockaddr_in server;
 	struct str strvar;
 	char buf[21];
-	pthread_t thread_substr, thread_sum, thread_cmp;
+	pthread_t thread_substr, thread_sum, thread_cmp, thread_concat;
 
 	sockfd = socket(AF_INET, SOCK_STREAM, 0);
 	if (sockfd < 0)
@@ -117,20 +131,24 @@ int main(int argc, char **argv)
 	pthread_create(&thread_sum, NULL, sumfn, &n);
 	pthread_create(&thread_substr, NULL, substr, &strvar);
 	pthread_create(&thread_cmp, NULL, cmp, &strvar);
-//	pthread_create(&thread_substr, NULL, concat, &strvar);
+	pthread_create(&thread_concat, NULL, concat, &strvar);
 
 	pthread_join(thread_sum, &sumval);
 	pthread_join(thread_substr, &subval);
 	pthread_join(thread_cmp, &cmpval);
-//	pthread_join(thread_prime, &primeval);
+	pthread_join(thread_concat, &concatvar);
 
 	sprintf(buf,"%d %d %d", *(int *)sumval, *(int *)subval, *(int *)cmpval);
 	if (send(newsockfd, buf, strlen(buf), 0) < 0)
 		error("send failed");
 
+	if (send(newsockfd, concatvar, strlen(concatvar), 0) < 0)
+		error("send failed");
+
 	free(sumval);
 	free(subval);
 	free(cmpval);
+	free(concatvar);
 	close(newsockfd);
 	close(sockfd);
 
