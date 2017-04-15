@@ -31,8 +31,11 @@ Download https://github.com/rootkea/SL-V/archive/master.zip or
 		$ gcc client.c -o client 		#on other machine or separate tab
 		$ ./client 127.0.0.1 51123		#substitute any LAN ip and port
 
-3. [WIP]Design a distributed application using RPC for remote computation where client submits a
-string to the server and server checks whether it is palindrome or not, reverse the string and
-returns the result to the client program.  
+3.  [WIP]Design a distributed application using RPC for remote computation  
+    where client submits a string to the server and server checks whether it is  
+    palindrome or not, reverse the string and returns the result to the client  
+    program.  
 
-4. 
+4.  [WIP]Design a distributed application using Message Passing Interface  
+    (MPI) for remote computation where client submits a string to the server  
+    and server returns the reverse of it to the client.  

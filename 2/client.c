@@ -62,7 +62,7 @@ int main(int argc, char **argv)
 	memset(buff2, '\0', sizeof(buff2));
 	if (recv(sockfd, buff2, sizeof(buff2), 0) < 0)
 		error("recv failed");
-	
+
 	sscanf(buf, "%d %d %d", &sum, &sub, &cmp);
 	printf("Sum = %d\nSubstring = %s\n", sum, sub? "Yes" : "No");
 	printf("Compare = %s\n", cmp? "Equal" : "Unequal");
