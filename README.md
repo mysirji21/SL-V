@@ -16,7 +16,7 @@ Download https://github.com/rootkea/SL-V/archive/master.zip or
 		$ gcc server.c -pthread -o server
 		$ ./server 51123				#substitute any non-privileged port
 		$ gcc client.c -o client 
-		$ ./client 127.0.0.1 51123		#substitute any LAN ip and port
+		$ ./client 127.0.0.1 51123			#substitute any LAN ip and port
 
 2. Implement following operations using Socket Programming & Multithreading.  
 	a. Addition of digits of a given number. (Ex 12345 = 15)  
@@ -27,6 +27,6 @@ Download https://github.com/rootkea/SL-V/archive/master.zip or
 		$ gcc server.c -pthread -o server
 		$ ./server 51123				#substitute any non-privileged port
 		$ gcc client.c -o client 
-		$ ./client 127.0.0.1 51123		#substitute any LAN ip and port
+		$ ./client 127.0.0.1 51123			#substitute any LAN ip and port
 
 3. 
