@@ -39,3 +39,21 @@ Software Laboratory 5
 4.  [WIP]Design a distributed application using Message Passing Interface  
     (MPI) for remote computation where client submits a string to the server  
     and server returns the reverse of it to the client.  
+    
+    Usage :  
+		On Slave(192.168.x.y):  
+
+			$ sudo apt-get install openssh-server	#install ssh server on slave
+			$ sudo service ssh start				#start ssh server on slave
+			$ sudo adduser foo						#create same user as on Master e.g foo
+
+		On Master(127.0.0.1) for user foo:  
+
+        $ cd 4
+        $ mpicc mpi.c -o mpi
+        $ ssh foo@192.168.x.y						#login to slave
+        $ mkdir ... 								#create direcotry strcuture as Master
+        $ scp mpi.c foo@192.168.x.y:`pwd` && exit	#In new tab : copy mpi.c to client
+        $ mpicc mpi.c -o mpi						#create binary
+        $ exit
+        $ mpirun -H 127.0.0.1,192.168.x.y -npernode 1 ./mpi

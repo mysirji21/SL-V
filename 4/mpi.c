@@ -10,74 +10,78 @@
 #include <mpi.h>
 #include <string.h>
 #include <stdlib.h>
-
-void error(char *msg)
+//********************* Debugging (optional)***************************
+void error(int errorcode, char *msg)
 {
-	perror(msg);
-	exit(1);
-}
+	int len;
+	char string[MPI_MAX_ERROR_STRING];
 
+	MPI_Error_string(errorcode, string, &len);
+	fprintf(stderr, "%s: %s\n", msg, string);
+
+	MPI_Abort(MPI_COMM_WORLD, errorcode);
+}
+//*********************************************************************
 int main(int argc, char **argv) 
 {
-	int rank, retval, len;
-	char buff[21];
+	int rank, retval, len, size, resultlen;
+	char buff[21], name[MPI_MAX_PROCESSOR_NAME];
 
-	retval = MPI_Init(&argc, &argv);
-	if(retval != MPI_SUCCESS)
-		error("MPI_Init failed");
+	MPI_Init(&argc, &argv);
+	MPI_Comm_set_errhandler(MPI_COMM_WORLD, MPI_ERRORS_RETURN);	//debugging
 
 	retval = MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 	if(retval != MPI_SUCCESS)
-		error("MPI_Comm_rank failed");
+		error(retval, "MPI_Comm_rank failed");
+//********************* Debugging (optional)***************************
+	retval = MPI_Comm_size(MPI_COMM_WORLD, &size);
+	if(retval != MPI_SUCCESS)
+		error(retval, "MPI_Comm_size failed");
 
+	retval = MPI_Get_processor_name(name, &resultlen);
+	if(retval != MPI_SUCCESS)
+		error(retval, "MPI_Comm_Get_processor_name failed");
 
-	if(rank)
+	printf("Running rank #%d out of %d on %s\n", rank, size, name);
+//*********************************************************************
+	if(!rank)
 	{
-		printf("String: ");
+		printf("String: \n");
 		scanf("%20s", buff);
 
-		retval = MPI_Send(buff, strlen(buff)+1, MPI_CHAR, 0, 1, MPI_COMM_WORLD);
+		retval = MPI_Send(buff, strlen(buff)+1, MPI_CHAR, 1, 1, MPI_COMM_WORLD);
 		if(retval != MPI_SUCCESS)
-			error("MPI_Send failed in rank 1");
+			error(retval, "MPI_Send failed in rank 0");
 
 		len = strlen(buff);
 		int i;
 		for(i = 0; i < len; i++)
 		{
-			retval = MPI_Recv(&buff[i], 1, MPI_CHAR, 0, 1, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+			retval = MPI_Recv(&buff[i], 1, MPI_CHAR, 1, 1, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
 			if(retval != MPI_SUCCESS)
-				error("MPI_Recv failed in rank 1");
+				error(retval, "MPI_Recv failed in rank 0");
 		}
-		retval = MPI_Recv(&buff[i], 1, MPI_CHAR, 0, 1, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-		if(retval != MPI_SUCCESS)
-			error("MPI_Recv failed in rank 1");
 
 		printf("Reversed string : %s\n", buff);
 
 	}
 	else
 	{
-printf("On rank 0\n");
-		retval = MPI_Recv(buff, sizeof(buff), MPI_CHAR, 1, 1, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+		retval = MPI_Recv(buff, sizeof(buff), MPI_CHAR, 0, 1, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
 		if(retval != MPI_SUCCESS)
-			error("MPI_Recv failed in rank 0");
-
-printf("buff = %s\n", buff);
+			error(retval, "MPI_Recv failed in rank 1");
 
 		for(len = strlen(buff) - 1; len >= 0; len--)
 		{
-			retval = MPI_Send(&buff[len], 1, MPI_CHAR, 1, 1, MPI_COMM_WORLD);
+			retval = MPI_Send(&buff[len], 1, MPI_CHAR, 0, 1, MPI_COMM_WORLD);
 			if(retval != MPI_SUCCESS)
-				error("MPI_Send failed in rank 0");
+				error(retval, "MPI_Send failed in rank 1");
 		}
-		retval = MPI_Send(&buff[strlen(buff)], 1, MPI_CHAR, 1, 1, MPI_COMM_WORLD);
-		if(retval != MPI_SUCCESS)
-			error("MPI_Send failed in rank 0");
 	}
 
 	retval = MPI_Finalize();
 	if(retval != MPI_SUCCESS)
-		error("MPI_Finalize failed");
+		error(retval, "MPI_Finalize failed");
 
 	return 0;
 }
