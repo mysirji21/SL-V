@@ -10,6 +10,8 @@
 #include <mpi.h>
 #include <string.h>
 #include <stdlib.h>
+
+void rev(char *);
 //********************* Debugging (optional)***************************
 void error(int errorcode, char *msg)
 {
@@ -24,7 +26,7 @@ void error(int errorcode, char *msg)
 //*********************************************************************
 int main(int argc, char **argv) 
 {
-	int rank, retval, len, size, resultlen;
+	int rank, retval, size, resultlen;
 	char buff[21], name[MPI_MAX_PROCESSOR_NAME];
 
 	MPI_Init(&argc, &argv);
@@ -46,24 +48,17 @@ int main(int argc, char **argv)
 //*********************************************************************
 	if(!rank)
 	{
-		printf("String: \n");
 		scanf("%20s", buff);
 
 		retval = MPI_Send(buff, strlen(buff)+1, MPI_CHAR, 1, 1, MPI_COMM_WORLD);
 		if(retval != MPI_SUCCESS)
 			error(retval, "MPI_Send failed in rank 0");
 
-		len = strlen(buff);
-		int i;
-		for(i = 0; i < len; i++)
-		{
-			retval = MPI_Recv(&buff[i], 1, MPI_CHAR, 1, 1, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-			if(retval != MPI_SUCCESS)
-				error(retval, "MPI_Recv failed in rank 0");
-		}
+		retval = MPI_Recv(buff, sizeof(buff), MPI_CHAR, 1, 1, MPI_COMM_WORLD, MPI_STATUS_IGNORE);	
+		if(retval != MPI_SUCCESS)
+			error(retval, "MPI_Recv failed in rank 0");
 
 		printf("Reversed string : %s\n", buff);
-
 	}
 	else
 	{
@@ -71,12 +66,11 @@ int main(int argc, char **argv)
 		if(retval != MPI_SUCCESS)
 			error(retval, "MPI_Recv failed in rank 1");
 
-		for(len = strlen(buff) - 1; len >= 0; len--)
-		{
-			retval = MPI_Send(&buff[len], 1, MPI_CHAR, 0, 1, MPI_COMM_WORLD);
-			if(retval != MPI_SUCCESS)
-				error(retval, "MPI_Send failed in rank 1");
-		}
+		rev(buff);
+
+		retval = MPI_Send(buff, strlen(buff)+1, MPI_CHAR, 0, 1, MPI_COMM_WORLD);
+		if(retval != MPI_SUCCESS)
+			error(retval, "MPI_Send failed in rank 1");
 	}
 
 	retval = MPI_Finalize();
@@ -84,4 +78,19 @@ int main(int argc, char **argv)
 		error(retval, "MPI_Finalize failed");
 
 	return 0;
+}
+
+void rev(char *str)
+{
+	int i, last;
+	char temp;
+
+	for(i = 0, last = strlen(str)-1; i < last; i++, last--)
+	{
+		temp = str[i];
+		str[i] = str[last];
+		str[last] = temp;
+	}
+
+	return ;
 }

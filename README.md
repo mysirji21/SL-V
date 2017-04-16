@@ -36,7 +36,7 @@ Software Laboratory 5
     palindrome or not, reverse the string and returns the result to the client  
     program.  
 
-4.  [WIP]Design a distributed application using Message Passing Interface  
+4.  Design a distributed application using Message Passing Interface  
     (MPI) for remote computation where client submits a string to the server  
     and server returns the reverse of it to the client.  
     
@@ -57,3 +57,6 @@ Software Laboratory 5
         $ mpicc mpi.c -o mpi						#create binary
         $ exit
         $ mpirun -H 127.0.0.1,192.168.x.y -npernode 1 ./mpi
+
+5.	[WIP]Design application using MapReduce under Hadoop for Character counting  
+	in a given text file
