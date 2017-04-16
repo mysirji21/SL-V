@@ -52,7 +52,7 @@ Software Laboratory 5
 		$ cd 4
 		$ mpicc mpi.c -o mpi
 		$ ssh foo@w.x.y.z				#login to slave
-		$ mkdir ... 					#create direcotry strcuture as Master
+		$ mkdir ... 					#create direcotry structure same as Master leading to mpi.c
 		$ scp mpi.c foo@w.x.y.z:`pwd` && exit		#In new tab : copy mpi.c to client
 		$ mpicc mpi.c -o mpi				#create binary
 		$ exit
