@@ -41,27 +41,7 @@ Software Laboratory 5
     and server returns the reverse of it to the client.  
     
     Usage :  
-<<<<<<< HEAD
-		On Slave(192.168.x.y):  
-
-			$ sudo apt-get install openssh-server	#install ssh server on slave
-			$ sudo service ssh start				#start ssh server on slave
-			$ sudo adduser foo						#create same user as on Master e.g foo
-
-		On Master(127.0.0.1) for user foo:  
-
-        $ cd 4
-        $ mpicc mpi.c -o mpi
-        $ ssh foo@192.168.x.y						#login to slave
-        $ mkdir ... 								#create direcotry strcuture as Master
-        $ scp mpi.c foo@192.168.x.y:`pwd` && exit	#In new tab : copy mpi.c to client
-        $ mpicc mpi.c -o mpi						#create binary
-        $ exit
-        $ mpirun -H 127.0.0.1,192.168.x.y -npernode 1 ./mpi
-
-5.	[WIP]Design application using MapReduce under Hadoop for Character counting  
-	in a given text file
-=======
+    	
 	On Slave(`w.x.y.z`):  
 
 		$ sudo apt-get install openssh-server		#install ssh server on slave
@@ -74,8 +54,10 @@ Software Laboratory 5
 		$ mpicc mpi.c -o mpi
 		$ ssh foo@w.x.y.z				#login to slave
 		$ mkdir ... 					#create direcotry structure same as Master leading to mpi.c
-		$ scp mpi.c foo@w.x.y.z:`pwd` && exit		#In new tab : copy mpi.c to client
+		$ scp mpi.c foo@w.x.y.z:`pwd` && exit		#in new tab : copy mpi.c to client
 		$ mpicc mpi.c -o mpi				#create binary
 		$ exit
 		$ mpirun -H 127.0.0.1,w.x.y.z -npernode 1 ./mpi
->>>>>>> 3799284875a8fbcc4f23b8a1354aec276cc52d36
+
+5.	[WIP]Design application using MapReduce under Hadoop for Character counting  
+	in a given text file.
